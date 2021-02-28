@@ -1,10 +1,5 @@
-const daysRef = document.querySelector(`[data-value="days"]`);
-const hoursRef = document.querySelector(`[data-value="hours"]`);
-const minutesRef = document.querySelector(`[data-value="mins"]`);
-const secondsRef = document.querySelector(`[data-value="secs"]`);
-
 class CountdownTimer {
-  constructor(selector, targetDate) {
+  constructor({ selector, targetDate }) {
     this.selector = selector;
     this.targetDate = targetDate;
     this.start();
@@ -14,7 +9,7 @@ class CountdownTimer {
     setInterval(() => {
       const currentTime = Date.now();
 
-      const time = this.selector.targetDate - currentTime;
+      const time = this.targetDate - currentTime;
 
       this.updateTimer(time);
     }, 1000);
@@ -27,10 +22,19 @@ class CountdownTimer {
     );
     const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
     const secs = this.pad(Math.floor((time % (1000 * 60)) / 1000));
-    daysRef.textContent = days;
-    hoursRef.textContent = hours;
-    minutesRef.textContent = mins;
-    secondsRef.textContent = secs;
+
+    document.querySelector(
+      this.selector,
+    ).children[0].children[0].textContent = `${days}`;
+    document.querySelector(
+      this.selector,
+    ).children[1].children[0].textContent = `${hours}`;
+    document.querySelector(
+      this.selector,
+    ).children[2].children[0].textContent = `${mins}`;
+    document.querySelector(
+      this.selector,
+    ).children[3].children[0].textContent = `${secs}`;
   }
   pad(time) {
     return String(time).padStart(2, '0');
@@ -40,4 +44,8 @@ class CountdownTimer {
 const timerReverse = new CountdownTimer({
   selector: '#timer-1',
   targetDate: new Date('Jul 25, 2021'),
+});
+const timerReverse2 = new CountdownTimer({
+  selector: '#timer-2',
+  targetDate: new Date('Jan 25, 2021'),
 });
